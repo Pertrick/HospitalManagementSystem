@@ -1,1 +1,1 @@
-# HospitalManagementSystem
+# HospitalManagementSystem with Laravel Livewire
