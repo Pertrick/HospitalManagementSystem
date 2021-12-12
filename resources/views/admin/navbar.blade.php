@@ -24,6 +24,7 @@
   </head>
   <body>
     <div class="container-scroller">
+   
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
@@ -55,9 +56,11 @@
                     <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
                   </div>
                 </a>
-                
+               
                
             </div>
+            
+      
           </li>
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
@@ -137,17 +140,18 @@
             </div>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+            <a class="nav-link" href="{{ route('adddoctor') }}">
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
               </span>
-              <span class="menu-title">Documentation</span>
+              <span class="menu-title">Add a Doctor</span>
             </a>
           </li>
         </ul>
       </nav>
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
+        
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">

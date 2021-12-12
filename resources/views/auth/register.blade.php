@@ -20,6 +20,17 @@
             </div>
 
             <div class="mt-4">
+            <x-jet-label for="gender" value="{{ __('Gender') }}" />
+            <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" id="exampleSelectGender" name="gender" :value="old('gender')" required >
+
+                <option>Select Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2" @if(old('gender') == 2) selected @endif>Female</option>
+                    <option value="3" @if(old('gender') == 3) selected @endif>Others</option>
+            </select>
+            </div>
+           
+            <div class="mt-4">
                 <x-jet-label for="phone" value="{{ __('Phone') }}" />
                 <x-jet-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
             </div>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::get('/', function () {
 Route::get('/', [HomeController::class, 'index'])->name('userindex');
 Route::get('/home', [HomeController::class, 'redirectToHome'])->name('redirectohome');
 
+Route::get('/add_doctor', [AdminController::class, 'AddDoctor'])->name('adddoctor');
+Route::post('/save_doctor', [AdminController::class, 'saveDoctor'])->name('savedoctor');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
