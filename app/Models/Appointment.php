@@ -4,22 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Specialty;
+use App\Models\User;
 
-class Doctor extends Model
+class Appointment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'full_name',
         'email',
+        'specialist',
+        'date',
+        'message',
         'phone',
-        'gender',
-        'room_no',
-        'specialty_id', 
+        
     ];
 
-    public function specialty(){
-        return $this->belongsTo(Specialty::class );
+    public function user(){
+        return $this->belongsTo(User::class);
     }
+
+
+  
 }

@@ -4,11 +4,12 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-               <!-- <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+               <!--- <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('redirectohome') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
-                </div>-->
+                </div>
+                        -->
 
                 <!-- Navigation Links -->
                 <!--
@@ -97,8 +98,17 @@
                                 {{ __('Manage Account') }}
                             </div>
 
+                            <x-jet-dropdown-link href="{{ route('redirectohome') }}">
+                                {{ __('Dashboard') }}
+                            </x-jet-dropdown-link>
+
+
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('showappointment') }}">
+                                {{ __('My Appointment') }}
                             </x-jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -138,11 +148,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
-        </div>
+        
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -160,9 +166,22 @@
             </div>
 
             <div class="mt-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('redirectohome') }}" :active="request()->routeIs('redirectohome')">
+                {{ __('Dashboard') }}
+            </x-jet-responsive-nav-link>
+        </div>
+
+            <div class="mt-2 space-y-1">
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
+                </x-jet-responsive-nav-link>
+            </div>
+
+                <div class="mt-2 space-y-1">
+
+                <x-jet-responsive-nav-link href="{{ route('showappointment') }}" :active="request()->routeIs('showappointment')">
+                                {{ __('My Appointment') }}
                 </x-jet-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

@@ -3,6 +3,15 @@
 <!-- partial -->
 <div class="main-panel">
           <div class="content-wrapper">
+
+          @if(session()->has('message'))
+
+            <div class="alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">x</button>
+              <div style="text-align: center">{{session()->get('message') }}</div>
+            </div>
+          @endif
+
             <div class="page-header">
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">

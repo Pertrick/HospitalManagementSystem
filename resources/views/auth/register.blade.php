@@ -24,9 +24,20 @@
             <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" id="exampleSelectGender" name="gender" :value="old('gender')" required >
 
                 <option>Select Gender</option>
-                    <option value="1">Male</option>
+                    <option value="1" @if(old('gender') == 1) selected @endif>Male</option>
                     <option value="2" @if(old('gender') == 2) selected @endif>Female</option>
                     <option value="3" @if(old('gender') == 3) selected @endif>Others</option>
+            </select>
+            </div>
+
+            <div class="mt-4">
+            <x-jet-label for="role" value="{{ __('Are you a Patient or Doctor? ') }}" />
+            <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" id="exampleSelectGender" name="userRole" :value="old('userRole')" required >
+
+                <option>Select type</option>
+                    <option value="1" @if(old('userRole') == 1) selected @endif>Patient</option>
+                    <option value="2" @if(old('userRole') == 2) selected @endif>Doctor</option>
+                    
             </select>
             </div>
            
