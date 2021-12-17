@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '_', app()->getLocale()) }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 
   <meta name="copyright" content="MACode ID, https://macodeid.com/">
 
-  <title>One Health - Medical Centr</title>
+  <title>One Health - Medical Center</title>
 
   <link rel="stylesheet" href="../assets/css/maicons.css">
 
@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="../assets/vendor/animate/animate.css">
 
   <link rel="stylesheet" href="../assets/css/theme.css">
+
+  
 </head>
 <body>
 
@@ -51,8 +53,15 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><span class="text-primary">One</span>-Health</a>
+        @if(Route::has('login'))
+        @auth
+        <a class="navbar-brand" href="{{route('redirectohome') }}"><span class="text-primary">One</span>-Health</a>
+        @else
 
+        <a class="navbar-brand" href="{{route('userindex') }}"><span class="text-primary">One</span>-Health</a>
+       
+        @endauth
+        @endif
         <form action="#">
           <div class="input-group input-navbar">
             <div class="input-group-prepend">
@@ -68,20 +77,34 @@
 
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home</a>
+          @if(Route::has('login'))
+              @auth
+            <li class="nav-item {{ Request::is('home*') ? 'active' : ''}}">
+
+            @else
+            <li class="nav-item {{ Request::is('/*') ? 'active' : ''}}">
+              @endauth
+              @endif
+
+            @if(Route::has('login'))
+              @auth
+              <a class="nav-link" href="{{ route('redirectohome') }}">Home</a>
+              
+              @else
+              <a class="nav-link" href="{{ route('userindex') }}">Home</a>
+              @endauth
+
+              @endif
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">About Us</a>
+            <li class="nav-item {{ Request::is('about') ? 'active' : ''}}">
+              <a class="nav-link " href="{{route('about') }}">About Us</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ Request::is('doctors') ? 'active' : ''}}">
               <a class="nav-link" href="{{route('showalldoctors') }}">Doctors</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="blog.html">News</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+           
+            <li class="nav-item {{ Request::is('contact_us') ? 'active' : '' }}">
+              <a class="nav-link" href="{{route ('contact')}}">Contact</a>
             </li>
 
             @if(Route::has('login'))
@@ -111,11 +134,16 @@
     </nav>
   </header>
 
-  @if(session()->has('message'))
+  <div class="container" style="margin-top: 8px;">
+    
+      @if(session()->has('message'))
 
     <div class="alert alert-success">
 
       <button type="button" class="close" data-dismiss="alert">x</button>
         <div style="text-align: center">{{session()->get('message') }}</div>
     </div>
-  @endif
+    @endif
+
+  </div>
+  

@@ -8,6 +8,12 @@ use App\Models\Specialty;
 use App\Models\Gender;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Models\User;
+
+use Notification;
+
+use App\Notifications\SendEmailNotification;
+//use App\Notifications\SendEmailNotify;
 
 class AdminController extends Controller
 {
@@ -70,7 +76,7 @@ class AdminController extends Controller
             if(Auth::id()){
                 $sn = 1;
     
-                $appointments = Appointment::all();
+                $appointments = Appointment::latest()->get();
     
                 return view('admin.showappointments', ['appointments' => $appointments, 'sn' => $sn]);
             }
@@ -145,9 +151,8 @@ class AdminController extends Controller
             
             if(Auth::id()){
                 $sn = 1;
-                $doctor_id= Appointment::find($id);
     
-                $doctor = Doctor::where('id', $doctor_id)->get();
+                $doctor = Doctor::find($id);
     
                 return view('admin.editdoctor', ['doctor' => $doctor, 'sn' => $sn]);
             }
@@ -176,6 +181,89 @@ class AdminController extends Controller
             }
     
         }
+
+
+        public function updateDoctor(Request $request, $id)
+        {
+        
+            $doctor = Doctor::find($id);
+
+            
+    
+             if(isset($request->name) ? $doctor->name = $request->name : $doctor->name= $doctor->name);
+             if(isset($request->email)? $doctor->email = $request->email : $doctor->email= $doctor->email);
+             if(isset($request->gender)? $doctor->gender = $request->gender : $doctor->gender= $doctor->gender);
+             if(isset($request->phone)? $doctor->phone = $request->phone : $doctor->phone= $doctor->phone);
+             
+             if(isset($request->room_no)? $doctor->room_no = $request->room_no : $doctor->room_no= $doctor->room_no);
+             
+             if(isset($request->specialty)? $doctor->specialty_id = $request->specialty : $doctor->specialty_id= $doctor->specialty_id);
+             
+               // dd($doctor);
+            
+
+             if( $request->hasFile('image') && $request->file('image')->isValid()) 
+             {
+              $image = $request->file('image');
+      
+              $filename = $request->file('image')->getClientOriginalName();
+              $path = $request->file('image')->store('public/doctors/images');
+     
+              $avatar = substr($path, 22); 
+             $doctor->image = $avatar;
+
+             }else{
+
+                $doctor->image = $doctor->image;
+             }
+    
+             //dd($doctor);
+             
+             $doctor->update();
+    
+             if($doctor->update()){
+                return redirect()->back()->with('message', "Doctor's details Updated successfully");
+            }
+            else{
+                return redirect()->back()->with('message', "Failed to update Doctor's details!");
+            }
+            
+            
+        }
+
+
+
+    public function viewMail($id)
+    {
+        $appointment = Appointment::find($id);
+        return view('admin.emailview', compact('appointment'));
+
+    } 
+
+
+    public function sendMail(Request $request, $id)
+    {
+        $appointment = Appointment::find($id);
+
+        $details = [
+
+            'greeting' => $request->greeting,
+
+            'body' => $request->body,
+
+            'actiontext' => $request->actiontext,
+
+            'actionurl' =>  $request->actionurl,
+
+            'endpart' => $request->endpart,
+
+        ];
+
+        Notification::send( $appointment, new SendEmailNotification($details));
+
+        return redirect()->back()->with('message', 'Email Notification Sent Successsfully!');
+
+    } 
 
 
    

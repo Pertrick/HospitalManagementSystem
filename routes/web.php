@@ -22,7 +22,11 @@ Route::get('/', function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('userindex');
-Route::get('/home', [HomeController::class, 'redirectToHome'])->name('redirectohome');
+Route::get('/contact_us', [HomeController::class, 'contact'])->name('contact');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+Route::get('/home', [HomeController::class, 'redirectToHome'])->name('redirectohome')->middleware('auth', 'verified' );
+
 
 
 
@@ -32,7 +36,9 @@ Route::get('/my_appointment', [HomeController::class, 'showAppointment'])->name(
 
 Route::get('/cancel_appointment/{id}', [HomeController::class, 'cancelAppointment'])->name('cancelappointment');
 
-Route::get('/show_all_doctors', [HomeController::class, 'showAllDoctors'])->name('showalldoctors');
+Route::get('/doctors', [HomeController::class, 'showAllDoctors'])->name('showalldoctors');
+
+Route::post('/contact', [HomeController::class, 'contactUs'])->name('contactusemail');
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
 
@@ -51,6 +57,12 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/edit_doctor/{id}', [AdminController::class, 'editDoctor'])->name('admin.editdoctor');
 
     Route::get('/delete_doctor/{id}', [AdminController::class, 'deleteDoctor'])->name('admin.deletedoctor');
+
+    Route::post('/update_doctor/{id}', [AdminController::class, 'updateDoctor'])->name('admin.updatedoctor');
+
+    Route::get('/mail_view/{id}', [AdminController::class, 'viewMail'])->name('admin.viewmail');
+
+    Route::post('/send_mail/{id}', [AdminController::class, 'sendMail'])->name('admin.sendmail');
 
 });
 

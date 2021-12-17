@@ -1,26 +1,9 @@
-<x-app-layout>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>My appointment</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="../../admin/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../../admin/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="../../admin/assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="../../admin/assets/images/favicon.png" />
-  </head>
-  <body>
+
+@include('user.partials.header')
+
+
+
     <div class="container-scroller">
       <!-- partial:../../partials/_sidebar.html -->
         <!-- partial -->
@@ -35,8 +18,8 @@
             </div>
           @endif
 
-            <div class="page-header">
-              <h3 class="page-title"> My Appointments</h3>
+            <div class="page-header" style="margin:5px;">
+              <h3 class="page-title"  style="padding:10px; font-weight:900;"> My Appointments</h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{route('redirectohome') }} ">Home</a></li>
@@ -45,7 +28,6 @@
               </nav>
             </div>
             
-              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <p class="card-description"> Find below your appointments
@@ -65,14 +47,33 @@
                         <tbody>
                             @foreach($appointments as $appointment)
                           <tr>
-                            <td> {{$sn++}} </td>
+                            <td> {{$sn++}}. </td>
                             <td> {{$appointment->specialist}} </td>
                             <td> {{$appointment->date}} </td>
                             <td> {{$appointment->message}} </td>
-                             @if($appointment->status) <td>Approved</td>
-                             @else
-                             <td>In Progress</td>
-                             @endif
+
+                            @if($appointment->status == 'In Progress')
+                             <td>
+                                <div style="background-color: yellow; text-align:center; font-weight:bold; padding:3px;">
+                                  {{$appointment->status}}
+                                </div>
+                              </td>
+
+                             @elseif($appointment->status == 'Cancelled')
+                             <td>
+                                <div style="background-color: red; text-align:center; font-weight:bold; padding:3px;">
+                                   {{$appointment->status}}
+                                  </div>
+                              </td>
+
+                              @else  
+                              <td>
+                                  <div style="background-color: green; text-align:center; font-weight:bold; padding:3px;">
+                                    {{$appointment->status}}
+                                  </div>
+                              </td>
+
+                              @endif
 
                              <td>
                              <a href="{{ route('cancelappointment', ['id' => $appointment->id]) }}" class="btn btn-danger" onClick="return confirm('Are you sure? ');">Cancel</a>
@@ -87,32 +88,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
               
-          <!-- content-wrapper ends -->
-          <!-- partial:../../partials/_footer.html -->
-          @include('user.partials.footer')
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../../admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="../../admin/assets/js/off-canvas.js"></script>
-    <script src="../../admin/assets/js/hoverable-collapse.js"></script>
-    <script src="../../admin/assets/js/misc.js"></script>
-    <script src="../../admin/assets/js/settings.js"></script>
-    <script src="../../admin/assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
-  </body>
-</html>
-</x-app-layout>
+              
+         
+
+@include('user.partials.footer')

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Models\contactUs;
+use Mail;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,23 @@ class HomeController extends Controller
             return view('user.home', ['doctors' => $doctors]);
         }
     }
+
+    public function about(){
+
+       
+        $doctors = Doctor::latest()->take(6)->get();
+
+        return view('user.about', ['doctors' => $doctors]);
+        
+    }
+
+    public function contact(){
+
+        return view('user.contact');
+    
+}
+
+
     
     public function redirectToHome()
     {
@@ -66,6 +85,7 @@ class HomeController extends Controller
         $appointment->date = $request->date;
         $appointment->specialist = $request->specialist;
         $appointment->message = $request->message;
+        $appointment->phone = $request->phone;
         $appointment->user_id = Auth::user()->id; //or Auth::id()
         $appointment->status = 'In Progress';
 
@@ -103,7 +123,7 @@ class HomeController extends Controller
             $sn = 1;
             $user_id = Auth::user()->id;
 
-            $appointments = Appointment::where('user_id', $user_id)->get();
+            $appointments = Appointment::where('user_id', $user_id)->latest()->get();
 
             return view('user.showappointment', ['appointments' => $appointments, 'sn' => $sn]);
         }
@@ -132,4 +152,53 @@ class HomeController extends Controller
         }
 
     }
+
+    public function contactUs(Request $request)
+    {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'email| required',
+            'subject' => 'required',
+            'message' => 'required',
+            
+
+        ]);
+
+        $contact = new contactUs;
+
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        
+        //dd($contact);
+
+        $contact->save();
+
+        Mail::send('user.email', array(
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'subject' => $request->get('subject'),
+            'message' => $request->get('message'),
+        ), function($message) use ($request){
+            
+            $message->from($request->email);
+            $message->to('udohpertrick@gmail.com', 'Admin')
+            ->subject($request->get('subject'));
+            
+        });
+
+           return redirect()->back()->with('message', 'Thanks for contacting. We will contact you soon!');
+        
+
+    //else{
+    //    return redirect('login')->with('message', 'contact failed');
+    //}
+
+}
+
+
+    
+
 }

@@ -41,6 +41,7 @@
                             <th> Status</th>
                             <th> Approve</th>
                             <th> Cancel</th>
+                            <th> Send Mail</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -65,6 +66,10 @@
                              </td>
 
                              
+                             <td>
+                             <a href="{{ route('admin.viewmail', ['id' => $appointment->id]) }} "  class="btn btn-primary ">Send Mail</a>
+                             </td>
+
                       
                           </tr>
 
